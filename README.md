@@ -1,4 +1,4 @@
-Scroll Reveal
+Jarallax - Just Another Parallax
 =============
 
 A simple way to create and maintain how elements fade in, triggered when they

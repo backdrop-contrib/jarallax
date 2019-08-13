@@ -1,417 +1,337 @@
-[![ScrollReveal — Easy scroll animations for web and mobile browsers.](https://scrollrevealjs.org/assets/scrollreveal-repo-header.png)](https://scrollrevealjs.org)
+## Just Another Parallax
+Smooth parallax scrolling effect for background images, videos and inline elements. Code in pure JavaScript with ***NO dependencies*** + jQuery supported. ***YouTube***, ***Vimeo*** and ***Local Videos*** parallax supported.
 
-[![ScrollReveal Demo](https://scrollrevealjs.org/assets/scrollreveal-demo.png)](https://scrollrevealjs.org)
+## [Demo](https://free.nkdev.info/jarallax/)
 
-***
+## Tested Browsers
+* Latest browsers on Mac and Windows (Chrome, Firefox, Safari, IE11, Edge)
+* Latest Chrome on Android
+* Latest Safari on iOs
 
-[![License][license-image]][license-url]
-[![NPM version][npm-image]][npm-url]
-[![NPM downloads][downloads-image]][downloads-url]
+## Want WordPress Plugin?
 
-- 3.3KB minified and Gzipped
-- No dependencies
-- From the ![heart](http://i.imgur.com/oXJmdtz.gif) of [@jlmakes](https://twitter.com/jlmakes)
+[![Advanced WordPress Backgrounds](https://a.nkdev.info/jarallax/awb-preview.jpg)](https://wordpress.org/plugins/advanced-backgrounds/)
 
-***
+We made WordPress plugin to easily make backgrounds for content in your blog with all Jarallax features.
 
-## 1. Getting Started
+Demo: https://wp.nkdev.info/free-advanced-wordpress-backgrounds/
 
-#### 1.1. Installation
+Download: https://nkdev.info/downloads/advanced-wordpress-backgrounds/
 
-The simplest method is to copy paste this snippet just before your closing `</body>` tag.
+## Getting Started
 
+### ES6
+`npm install jarallax --save`
+```javascript
+import {
+    jarallax,
+    jarallaxElement,
+    jarallaxVideo
+} from 'jarallax';
+
+jarallaxVideo();
+jarallaxElement();
+```
+
+Note: in this way is not available jQuery and data-attribute automatic initialization. Use javascript call instead ([Example](#b-javascript-way)).
+
+### Browser
 ```html
-<script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+<!-- Jarallax -->
+<script src="jarallax/dist/jarallax.min.js"></script>
+
+<!-- Include it if you want to use Video parallax -->
+<script src="jarallax/dist/jarallax-video.min.js"></script>
+
+<!-- Include it if you want to parallax any element -->
+<script src="jarallax/dist/jarallax-element.min.js"></script>
 ```
 
-But you can also:
-
-- [Download ZIP](https://github.com/jlmakes/scrollreveal.js/archive/master.zip)
-- `npm install scrollreveal`
-- `bower install scrollreveal`
-
-#### 1.2. The Basics
-
-The `reveal()` method is the primary API, and makes it easy to create and manage various types of animations.
-
+#### CDN
+Link directly from [unpkg](https://unpkg.com/)
 ```html
-<!-- HTML -->
-<div class="foo"> Foo </div>
-<div class="bar"> Bar </div>
-```
-```js
-// JavaScript
-window.sr = ScrollReveal();
-sr.reveal('.foo');
-sr.reveal('.bar');
-```
+<!-- Jarallax -->
+<script src="https://unpkg.com/jarallax@1.10/dist/jarallax.min.js"></script>
 
-## 2. Configuration
-Passing a configuration object to `ScrollReveal()` changes the defaults for all reveals, and passing `reveal()` a configuration object customizes that reveal set further.
+<!-- Include it if you want to use Video parallax -->
+<script src="https://unpkg.com/jarallax@1.10/dist/jarallax-video.min.js"></script>
 
-#### 2.1. Practical Example
-```js
-// Changing the defaults
-window.sr = ScrollReveal({ reset: true });
-
-// Customizing a reveal set
-sr.reveal('.foo', { duration: 200 });
+<!-- Include it if you want to parallax any element -->
+<script src="https://unpkg.com/jarallax@1.10/dist/jarallax-element.min.js"></script>
 ```
 
-#### 2.2. The Starting Defaults
-```js
-// 'bottom', 'left', 'top', 'right'
-origin: 'bottom',
+## Supported plugins
+You can add these plugins before jarallax initialize.
+- [object-fit-images](https://github.com/bfred-it/object-fit-images) polyfill for `object-fit` styles;
+- [lazysizes](https://github.com/aFarkas/lazysizes) lazy-load images with srcset support;
+- [resize-observer-polyfill](https://github.com/que-etc/resize-observer-polyfill) resize observer polyfill for `automaticResize` option;
 
-// Can be any valid CSS distance, e.g. '5rem', '10%', '20vw', etc.
-distance: '20px',
-
-// Time in milliseconds.
-duration: 500,
-delay: 0,
-
-// Starting angles in degrees, will transition from these values to 0 in all axes.
-rotate: { x: 0, y: 0, z: 0 },
-
-// Starting opacity value, before transitioning to the computed opacity.
-opacity: 0,
-
-// Starting scale value, will transition from this value to 1
-scale: 0.9,
-
-// Accepts any valid CSS easing, e.g. 'ease', 'ease-in-out', 'linear', etc.
-easing: 'cubic-bezier(0.6, 0.2, 0.1, 1)',
-
-// `<html>` is the default reveal container. You can pass either:
-// DOM Node, e.g. document.querySelector('.fooContainer')
-// Selector, e.g. '.fooContainer'
-container: window.document.documentElement,
-
-// true/false to control reveal animations on mobile.
-mobile: true,
-
-// true:  reveals occur every time elements become visible
-// false: reveals occur once as elements become visible
-reset: false,
-
-// 'always' — delay for all reveal animations
-// 'once'   — delay only the first time reveals occur
-// 'onload' - delay only for animations triggered by first load
-useDelay: 'always',
-
-// Change when an element is considered in the viewport. The default value
-// of 0.20 means 20% of an element must be visible for its reveal to occur.
-viewFactor: 0.2,
-
-// Pixel values that alter the container boundaries.
-// e.g. Set `{ top: 48 }`, if you have a 48px tall fixed toolbar.
-// --
-// Visual Aid: https://scrollrevealjs.org/assets/viewoffset.png
-viewOffset: { top: 0, right: 0, bottom: 0, left: 0 },
-
-// Callbacks that fire for each triggered element reveal, and reset.
-beforeReveal: function (domEl) {},
-beforeReset: function (domEl) {},
-
-// Callbacks that fire for each completed element reveal, and reset.
-afterReveal: function (domEl) {},
-afterReset: function (domEl) {}
-```
-
-## 3. Advanced
-
-#### 3.1. Sequenced Animations
-
-You can pass a sequence interval (in milliseconds) to the `reveal()` method, making sequenced animations a breeze.
-
->**Note:** The interval is the time until the next element in the sequence begins its reveal, which is separate from the time until the element’s animation completes. In this example, the animation duration is 2 seconds, but the sequence interval is 50 milliseconds.
-
-```js
-// interval passed to reveal
-window.sr = ScrollReveal({ duration: 2000 });
-sr.reveal('.box', 50);
-
-// or...
-
-// interval and custom config passed to reveal
-window.sr = ScrollReveal();
-sr.reveal('.box', { duration: 2000 }, 50);
-```
-
-![sequencer](https://cloud.githubusercontent.com/assets/2044842/13556788/a7dda6c6-e3e2-11e5-93fa-d6a227cbb5dc.gif)
-
-#### 3.2. Working With DOM Nodes
-
-You may also pass `Node`, `NodeList` and `Array<Node>` as the reveal target.
-
-```js
-var node = document.querySelector('.foo');
-var nodeList = document.querySelectorAll('.bar');
-var array = Array.prototype.slice.call(nodeList);
-
-sr.reveal(node);
-sr.reveal(nodeList);
-sr.reveal(array);
-```
-
-#### 3.3. Custom/Multiple Containers
-
-The default container is the viewport, but you can assign any container to any reveal set.
-
->**Tip:** ScrollReveal works just as well with horizontally scrolling containers too!
-
+## Set up your HTML
 ```html
-<div id="fooContainer">
-  <div class="foo"> Foo 1 </div>
-  <div class="foo"> Foo 2 </div>
-  <div class="foo"> Foo 3 </div>
+<!-- Background Image Parallax -->
+<div class="jarallax">
+    <img class="jarallax-img" src="<background_image_url_here>" alt="">
+    Your content here...
 </div>
 
-<div id="barContainer">
-  <div class="bar"> Bar 1 </div>
-  <div class="bar"> Bar 2 </div>
-  <div class="bar"> Bar 3 </div>
-</div>
-```
-```js
-window.sr = ScrollReveal();
-
-// as a DOM node...
-var fooContainer = document.getElementById('fooContainer');
-sr.reveal('.foo', { container: fooContainer });
-
-// as a selector...
-sr.reveal('.bar', { container: '#barContainer' });
-```
-
-#### 3.4. Asynchronous Content
-
-The `sync()` method updates asynchronously loaded content with any existing reveal sets.
-
-_Example:_
-
-```html
-<!-- index.html -->
-<div id="fooContainer">
-  <div class="foo">foo</div>
-  <div class="foo">foo</div>
-  <div class="foo">foo</div>
+<!-- Background Image Parallax with <picture> tag -->
+<div class="jarallax">
+    <picture class="jarallax-img">
+        <source media="..." srcset="<alternative_background_image_url_here>">
+        <img src="<background_image_url_here>" alt="">
+    </picture>
+    Your content here...
 </div>
 
-<!-- ajax.html -->
-<div class="foo">foo async</div>
-<div class="foo">foo async</div>
-<div class="foo">foo async</div>
+<!-- Alternate: Background Image Parallax -->
+<div class="jarallax" style="background-image: url('<background_image_url_here>');">
+    Your content here...
+</div>
 ```
-```js
-var fooContainer, content, sr, xmlhttp;
 
-fooContainer = document.getElementById('fooContainer');
-
-sr = ScrollReveal();
-sr.reveal('.foo', { container: fooContainer });
-
-// Setup a new asynchronous request...
-xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-  if (xmlhttp.readyState == XMLHttpRequest.DONE) {
-    if (xmlhttp.status == 200) {
-
-      // Turn our response into HTML...
-      var content = document.createElement('div');
-      content.innerHTML = xmlhttp.responseText;
-      content = content.childNodes;
-
-      // Add each element to the DOM...
-      for (var i = 0; i < content.length; i++) {
-        fooContainer.appendChild(content[ i ]);
-      };
-
-      // Finally!
-      sr.sync();
-    }
-  }
+### Additional styles
+These styles need to correct background image position before Jarallax initialized:
+```css
+.jarallax {
+    position: relative;
+    z-index: 0;
 }
-
-xmlhttp.open('GET', 'ajax.html', true);
-xmlhttp.send();
+.jarallax > .jarallax-img {
+    position: absolute;
+    object-fit: cover;
+    /* support for plugin https://github.com/bfred-it/object-fit-images */
+    font-family: 'object-fit: cover;';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
 ```
+You can include it from `dist/jarallax.css`.
 
-## 4. Tips
+## Call the plugin
 
-#### 4.1. Order Matters
-
-It’s important that `reveal()` calls be made as close to last in your page as possible, so that:
-
-- Elements on the page have loaded
-- Any other 3rd party libraries have had a chance to run
-- Any other styles added to your elements wont be overwritten
-
-_Example:_
-
+### A. Data attribute way
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <!-- load and instantiate ScrollReveal first -->
-    <script src="js/scrollreveal.min.js"></script>
-    <script>
-      window.sr = ScrollReveal();
-    </script>
-  </head>
-  <body>
+<div data-jarallax data-speed="0.2" class="jarallax">
+    <img class="jarallax-img" src="<background_image_url_here>" alt="">
+    Your content here...
+</div>
+```
+Note: You can use all available options as data attributes. For example: `data-speed`, `data-img-src`, `data-img-size`, etc...
 
-    <div class="fooContainer">
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-    </div>
-
-    <!-- make reveal calls last -->
-    <script>
-      sr.reveal('.fooReveal', { container: '.fooContainer' });
-    </script>
-
-  </body>
-</html>
+### B. JavaScript way
+```javascript
+jarallax(document.querySelectorAll('.jarallax'), {
+    speed: 0.2
+});
 ```
 
-#### 4.2. Improve User Experience
+### C. jQuery way
+```javascript
+$('.jarallax').jarallax({
+    speed: 0.2
+});
+```
 
-In most cases, your elements will start at `opacity: 0` so they can fade in. However, since JavaScript loads after the page begins rendering, you might see your elements flickering as they begin rendering before being hidden by ScrollReveal's JavaScript.
-
-The ideal solution is to **set your reveal elements visibility to hidden** in the `<head>` of your page, to ensure they render hidden while your JavaScript loads:
-
-_Continuing our example from 4.1._
+## Background Video Usage Examples
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <!-- load and instantiate ScrollReveal first -->
-    <script src="js/scrollreveal.min.js"></script>
-    <script>
-      window.sr = ScrollReveal();
+<!-- Background YouTube Parallax -->
+<div class="jarallax" data-jarallax-video="https://www.youtube.com/watch?v=ab0TSkLe-E0">
+    Your content here...
+</div>
 
-      // Add class to <html> if ScrollReveal is supported
-      // Note: this method is deprecated, and only works in version 3
-      if (sr.isSupported()) {
-        document.documentElement.classList.add('sr');
-      }
+<!-- Background Vimeo Parallax -->
+<div class="jarallax" data-jarallax-video="https://vimeo.com/110138539">
+    Your content here...
+</div>
 
-    </script>
-
-    <style>
-
-      /* Ensure elements load hidden before ScrollReveal runs */
-      .sr .fooReveal { visibility: hidden; }
-
-    </style>
-
-  </head>
-  <body>
-
-    <div class="fooContainer">
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-    </div>
-
-    <!-- make reveal calls last -->
-    <script>
-      sr.reveal('.fooReveal', { container: '.fooContainer' });
-    </script>
-
-  </body>
-</html>
+<!-- Background Local Video Parallax -->
+<div class="jarallax" data-jarallax-video="mp4:./video/local-video.mp4,webm:./video/local-video.webm,ogv:./video/local-video.ogv">
+    Your content here...
+</div>
 ```
->**Note:** If you prefer not to put styles in the `<head>` of your page, including this style in your primary stylesheet will still help with element flickering since your CSS will likely load before your JavaScript.
+Note: for local videos required only 1 video type, not necessary use all mp4, webm and ogv. This need only for maximum compatibility with all browsers.
 
-#### 4.3. Add Perspective to 3D Rotation
-
-ScrollReveal supports 3d rotation out of the box, but you may want to emphasize the effect by specifying a perspective property on your container.
-
-_Continuing our example from 4.2._
+## Any Element Parallax Usage Examples
 ```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <!-- load and instantiate ScrollReveal first -->
-    <script src="js/scrollreveal.min.js"></script>
-    <script>
-      window.sr = ScrollReveal();
+<!-- Element will be parallaxed on -140 pixels from the screen center by Y axis -->
+<div data-jarallax-element="-140">
+    Your content here...
+</div>
 
-      // Add class to <html> if ScrollReveal is supported
-      // Note: this method is deprecated, and only works in version 3
-      if (sr.isSupported()) {
-        document.documentElement.classList.add('sr');
-      }
+<!-- Element will be parallaxed on 250 pixels from the screen center by Y axis and on -100 pixels from the screen center by X axis -->
+<div data-jarallax-element="250 -100">
+    Your content here...
+</div>
+```
+Note: this is more like experimental feature, so the behavior could be changed in the future releases.
 
-    </script>
+## Options
+Options can be passed in data attributes or in object when you initialize jarallax from script.
 
-    <style>
+Name | Type | Default | Description
+:--- | :--- | :------ | :----------
+type | string | `scroll` | scroll, scale, opacity, scroll-opacity, scale-opacity.
+speed | float | `0.5` | Parallax effect speed. Provide numbers from -1.0 to 2.0.
+imgSrc | path | `null` | Image url. By default used image from background.
+imgElement | dom / selector | `.jarallax-img` | Image tag that will be used as background.
+imgSize | string | `cover` | Image size. If you use `<img>` tag for background, you should add `object-fit` values, else use `background-size` values.
+imgPosition | string | `50% 50%` | Image position. If you use `<img>` tag for background, you should add `object-position` values, else use `background-position` values.
+imgRepeat | string | `no-repeat` | Image repeat. Supported only `background-position` values.
+keepImg | boolean | `false` | Keep `<img>` tag in it's default place after Jarallax inited.
+elementInViewport | dom | `null` | Use custom DOM / jQuery element to check if parallax block in viewport. More info here - [Issue 13](https://github.com/nk-o/jarallax/issues/13).
+zIndex | number | `-100` | z-index of parallax container.
+disableParallax | RegExp / function | - | Disable parallax on specific user agents (using regular expression) or with function return value. The image will be set on the background.
+disableVideo | RegExp / function | - | Disable video load on specific user agents (using regular expression) or with function return value. The image will be set on the background.
+automaticResize | boolean | false | **Experimental!** Automatically recalculate parallax size and position when the size of parallax block changed (dynamic content inside). Uses ResizeObserver, which has a small browsers compatible. Recommended using with polyfill [https://github.com/que-etc/resize-observer-polyfill](https://github.com/que-etc/resize-observer-polyfill).
 
-      /* Ensure elements load hidden before ScrollReveal runs */
-      .sr .fooReveal { visibility: hidden; }
+### Disable on mobile devices
+You can disable parallax effect and/or video background on mobile devices using option `disableParallax` and/or `disableVideo`.
 
-      /* add perspective to your container */
-      .fooContainer { perspective: 800px; }
-
-    </style>
-
-  </head>
-  <body>
-
-    <div class="fooContainer">
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-      <div class="fooReveal"> Foo </div>
-    </div>
-
-  <!-- make reveal calls last -->
-    <script>
-      // use rotation in reveal configuration
-      sr.reveal('.fooReveal', { container: '.fooContainer', rotate: {x: 65} });
-    </script>
-
-  </body>
-</html>
+Example:
+```javascript
+jarallax(document.querySelectorAll('.jarallax'), {
+    disableParallax: /iPad|iPhone|iPod|Android/,
+    disableVideo: /iPad|iPhone|iPod|Android/
+});
 ```
 
-## 5. Appendix
+Or using function. Example:
+```javascript
+jarallax(document.querySelectorAll('.jarallax'), {
+    disableParallax: function () {
+        return /iPad|iPhone|iPod|Android/.test(navigator.userAgent);
+    },
+    disableVideo: function () {
+        return /iPad|iPhone|iPod|Android/.test(navigator.userAgent);
+    }
+});
+```
 
-Open source under the [MIT License](https://github.com/jlmakes/scrollreveal.js/blob/master/LICENSE.md). ©2014–2018 Julian Lloyd.
 
-#### 5.1. Browser Compatibility
+### Options For Video (+ supported all default options)
+Required `jarallax/jarallax-video.js` file.
 
-ScrollReveal works on any JavaScript enabled browser that supports both [CSS Transform](http://caniuse.com/#search=transform) and [CSS Transition](http://caniuse.com/#search=transitions). This includes Internet Explorer 10+, and most modern desktop and mobile browsers.
+Name | Type | Default | Description
+:--- | :--- | :------ | :----------
+videoSrc | string | `null` | You can use Youtube, Vimeo or local videos. Also you can use data attribute `data-jarallax-video`.
+videoStartTime | float | `0` | Start time in seconds when video will be started (this value will be applied also after loop).
+videoEndTime | float | `0` | End time in seconds when video will be ended.
+videoVolume | float | `0` | Video volume from 0 to 100.
+videoLoop | boolean | `true` | Loop video to play infinitely.
+videoPlayOnlyVisible | boolean | `true` | Play video only when it is visible on the screen.
+videoLazyLoading | boolean | `true` | Preload videos only when it is visible on the screen.
 
-#### 5.2. Issues and Reporting Bugs
+### Options For Element Parallax
+Required `jarallax/jarallax-element.js` file.
 
-**Please search existing issues, before creating a new one;** every issue is labeled and attended carefully. If you open a duplicate issue, it will be closed immediately.
+Name | Type | Default | Description
+:--- | :--- | :------ | :----------
+type | string | `element` | Will only work with `element` value.
+speed | mixed | `0 0` | Parallax distance in pixels. Supported Y and X axis. Example: `100 200`. Also you can use data attribute `data-jarallax-element`.
+threshold | mixed | `null null` | Specify threshold for the parallax effect to kick in. For example, if you pass `0 0`, the element will start to move only after it has been scrolled to the middle of the viewport.
 
-If you cannot find your issue/bug in a previous ticket, please include details such as your browser, any other 3rd party JavaScript libraries you are using, and ideally a code sample demonstrating the problem. (Try [JSBin](http://jsbin.com/nuqapopefo/1/edit?html,output))
+## Events
+Events used the same way as Options.
 
-#### 5.3. Pull Requests
+Name | Description
+:--- | :----------
+onScroll | Called when parallax working. Use first argument with calculations. More info [see below](#onscroll-event).
+onInit | Called after init end.
+onDestroy | Called after destroy.
+onCoverImage | Called after cover image.
 
-Feeling inspired? Please contribute! Optimizations, compatibility and bug fixes are greatly preferred over new features, but don’t be shy. One thing sorely missing from ScrollReveal right now is a test suite.
+### onScroll event
+```javascript
+jarallax(document.querySelectorAll('.jarallax'), {
+    onScroll: function(calculations) {
+        console.log(calculations);
+    }
+});
+```
 
-#### 5.4. Showcase
+Console Result:
+```javascript
+{
+    // parallax section client rect (top, left, width, height)
+    rect            : object,
 
-Here are some cool sites using ScrollReveal:
+    // see image below for more info
+    beforeTop       : float,
+    beforeTopEnd    : float,
+    afterTop        : float,
+    beforeBottom    : float,
+    beforeBottomEnd : float,
+    afterBottom     : float,
 
-- [Sequoia Capital](https://www.sequoiacap.com)
-- [Twist App](https://twistapp.com/)
-- [Udacity](https://www.udacity.com/)
+    // percent of visible part of section (from 0 to 1)
+    visiblePercent  : float,
 
-Want to see your page here? Please send me your work (or of others) using ScrollReveal on Twitter ([@jlmakes](https://twitter.com/jlmakes))
+    // percent of block position relative to center of viewport from -1 to 1
+    fromViewportCenter: float
+}
+```
 
-#### 5.5. Special Thanks
+Calculations example:
+[![On Scroll Calculations](https://a.nkdev.info/jarallax/jarallax-calculations.jpg)](https://a.nkdev.info/jarallax/jarallax-calculations.jpg)
 
-ScrollReveal was inspired by the talented [Manoela Ilic](https://twitter.com/crnacura) and her [cbpScroller.js](http://tympanus.net/codrops/2013/07/18/on-scroll-effect-layout/).
 
-[license-image]: https://img.shields.io/badge/license-MIT-1283c3.svg
-[license-url]: https://github.com/jlmakes/scrollreveal.js/blob/master/LICENSE.md
-[npm-image]: https://img.shields.io/npm/v/scrollreveal.svg?style=flat
-[npm-url]: https://npmjs.org/package/scrollreveal
-[downloads-image]: https://img.shields.io/npm/dm/scrollreveal.svg?style=flat
-[downloads-url]: https://npmjs.org/package/scrollreveal
+## Methods
+Name | Result | Description
+:--- | :----- | :----------
+destroy | - | Destroy Jarallax and set block as it was before plugin init.
+isVisible | boolean | Check if parallax block is in viewport.
+onResize | - | Fit image and clip parallax container. Called on window resize and load.
+onScroll | - | Calculate parallax image position. Called on window scroll.
+
+### Call methods example
+#### A. JavaScript way
+```javascript
+jarallax(document.querySelectorAll('.jarallax'), 'destroy');
+```
+
+#### B. jQuery way
+```javascript
+$('.jarallax').jarallax('destroy');
+```
+
+
+## No conflict
+If you already have global ***jarallax*** variable or ***jQuery.fn.jarallax***, you can rename plugin.
+### A. JavaScript way
+```javascript
+var newJarallax = jarallax.noConflict();
+```
+
+### B. jQuery way
+```javascript
+jQuery.fn.newJarallax = jQuery.fn.jarallax.noConflict();
+```
+
+## For Developers
+
+### Installation
+* Run `npm install` in the command line. Or if you need to update some dependencies, run `npm update`
+
+### Building
+* `npm run dev` to run build and start local server with files watcher
+* `npm run build` to run build
+
+### Linting
+* `npm run js-lint` to show eslint errors
+* `npm run js-lint-fix` to automatically fix some of the eslint errors
+
+### Test
+* `npm run test` to run unit tests
+
+
+## Real Usage Examples
+* [Khaki](https://demo.nkdev.info/#khaki)
+* [Godlike](https://demo.nkdev.info/#godlike)
+* [Youplay](https://demo.nkdev.info/#youplay)
+
+## Credits
+Images https://unsplash.com/
+Local Video https://videos.pexels.com/

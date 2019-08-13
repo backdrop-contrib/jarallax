@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Administration page callbacks for the Scroll Reveal module.
+ * Administration page callbacks for the Jarallax module.
  */
 
 /**
  * Callback function for admin settings form.
  */
-function scrollreveal_admin($form, &$form_state) {
-  $settings = config_get('scrollreveal.settings');
+function jarallax_admin($form, &$form_state) {
+  $settings = config_get('jarallax.settings');
   $i = 1;
 
   // Get active themes.
@@ -20,7 +20,7 @@ function scrollreveal_admin($form, &$form_state) {
   }
 
   // Add custom CSS to form.
-  backdrop_add_css(backdrop_get_path('module', 'scrollreveal') . "/css/scrollreveal.css");
+  backdrop_add_css(backdrop_get_path('module', 'jarallax') . "/css/jarallax.css");
 
   // Add default value fields.
   $form['config'] = array(
@@ -29,7 +29,7 @@ function scrollreveal_admin($form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  scrollreveal_add_form_elements($form['config'], $settings['config']);
+  jarallax_add_form_elements($form['config'], $settings['config']);
 
   $form['triggers_fieldset'] = array(
     '#type' => 'vertical_tabs',
@@ -48,15 +48,15 @@ function scrollreveal_admin($form, &$form_state) {
       $form["trigger$i"]['element'] = array(
         '#type' => 'textfield',
         '#title' => t('jQuery selector'),
-        '#description' => t("A jQuery selector to identify the element(s) that will appear with the Scroll Reveal. For example, for a list of items in a view you could use '.view .views-row'."),
+        '#description' => t("A jQuery selector to identify the element(s) to apply Jarallax to. For example, for a hero block you could use '.block-hero'."),
         '#default_value' => isset($trigger['element']) ? $trigger['element'] : '',
         '#required' => TRUE,
       );
-      scrollreveal_add_form_elements($form["trigger$i"], $trigger, TRUE, t('- Default -'));
+      jarallax_add_form_elements($form["trigger$i"], $trigger, TRUE, t('- Default -'));
       $form["trigger$i"]['delete'] = array(
         '#type' => 'submit',
         '#value' => t('Delete element'),
-        '#submit' => array('scrollreveal_admin_delete_submit'),
+        '#submit' => array('jarallax_admin_delete_submit'),
         '#limit_validation_errors' => array(),
         '#attributes' => array('class' => array('button-danger')),
       );
@@ -75,10 +75,10 @@ function scrollreveal_admin($form, &$form_state) {
   $form["trigger$i"]['element'] = array(
     '#type' => 'textfield',
     '#title' => t('jQuery selector'),
-    '#description' => t("A jQuery selector to identify the element(s) that will appear with the Scroll Reveal. For example, for a list of items in a view you could use '.view .views-row'."),
+    '#description' => t("A jQuery selector to identify the element(s) to apply Jarallax to. For example, for a hero block you could use '.block-hero'."),
     '#default_value' => '',
   );
-  scrollreveal_add_form_elements($form["trigger$i"], '', FALSE, t('- Default -'));
+  jarallax_add_form_elements($form["trigger$i"], '', FALSE, t('- Default -'));
 
   // Add page fields.
   $form['pages'] = array(
@@ -136,7 +136,7 @@ function scrollreveal_admin($form, &$form_state) {
       '#value' => t('Save configuration'),
     ),
   );
-  $form['#submit'][] = 'scrollreveal_admin_form_submit';
+  $form['#submit'][] = 'jarallax_admin_form_submit';
 
   return $form;
 }
@@ -144,18 +144,18 @@ function scrollreveal_admin($form, &$form_state) {
 /**
  * Delete an element.
  */
-function scrollreveal_admin_delete_submit($form, &$form_state) {
+function jarallax_admin_delete_submit($form, &$form_state) {
   $element = $form_state['clicked_button']['#parents'][0];
-  config_clear('scrollreveal.settings', "triggers_fieldset.$element");
+  config_clear('jarallax.settings', "triggers_fieldset.$element");
   backdrop_set_message(t('The element has been deleted.'));
 }
 
 /**
  * Form submission handler.
  */
-function scrollreveal_admin_form_submit($form, &$form_state) {
+function jarallax_admin_form_submit($form, &$form_state) {
   $values = &$form_state['values'];
-  $config = config('scrollreveal.settings');
+  $config = config('jarallax.settings');
 
   // Exclude unnecessary elements.
   form_state_values_clean($form_state);
@@ -186,130 +186,23 @@ function scrollreveal_admin_form_submit($form, &$form_state) {
  *
  * Defining the fields once here helps reduce duplication.
  */
-function scrollreveal_add_form_elements(&$form, $defaults = '', $isset = FALSE, $empty_option = FALSE) {
-  $options['origin'] = array(
+function jarallax_add_form_elements(&$form, $defaults = '', $isset = FALSE, $empty_option = FALSE) {
+  $options['type'] = array(
     '#type' => 'select',
-    '#title' => t('Origin'),
+    '#title' => t('Type'),
     '#options' => array(
-      'top' => t('Top'),
-      'bottom' => t('Bottom'),
-      'left' => t('Left'),
-      'right' => t('Right'),
+      'scroll' => t('Scroll'),
+      'scale' => t('Scale'),
+      'opacity' => t('Opacity'),
+      'scroll-opacity' => t('Scroll-Opacity'),
+      'scale-opacity' => t('Scale-Opacity'),
     ),
   );
-  $options['distance'] = array(
-    '#type' => 'number',
-    '#title' => t('Distance'),
-    '#min' => 0,
-    '#max' => 9999,
-    '#field_suffix' => t('px'),
-  );
-  $options['duration'] = array(
-    '#type' => 'number',
-    '#title' => t('Duration'),
-    '#min' => 0,
-    '#max' => 99999,
-    '#field_suffix' => t('ms'),
-  );
-  $options['delay'] = array(
-    '#type' => 'number',
-    '#title' => t('Delay'),
-    '#min' => 0,
-    '#max' => 99999,
-    '#field_suffix' => t('ms'),
-  );
-  $options['interval'] = array(
-    '#type' => 'number',
-    '#title' => t('Sequence interval'),
-    '#description' => t("The interval is the time until the next element in the sequence begins its reveal, which is separate from the time until the element's animation completes."),
-    '#min' => 0,
-    '#max' => 99999,
-    '#field_suffix' => t('ms'),
-  );
-  $options['rotate_x'] = array(
-    '#type' => 'number',
-    '#title' => t('Rotate x'),
-    '#description' => t("Starting angle; will transition from this value to 0 on the x axis."),
-    '#min' => -360,
-    '#max' => 360,
-    '#field_suffix' => t('degrees'),
-  );
-  $options['rotate_y'] = array(
-    '#type' => 'number',
-    '#title' => t('Rotate y'),
-    '#description' => t("Starting angle; will transition from this value to 0 on the y axis."),
-    '#min' => -360,
-    '#max' => 360,
-    '#field_suffix' => t('degrees'),
-  );
-  $options['rotate_z'] = array(
-    '#type' => 'number',
-    '#title' => t('Rotate z'),
-    '#description' => t("Starting angle; will transition from this value to 0 on the z axis."),
-    '#min' => -360,
-    '#max' => 360,
-    '#field_suffix' => t('degrees'),
-  );
-  $options['opacity'] = array(
-    '#type' => 'number',
-    '#title' => t('Opacity'),
-    '#description' => t("Starting opacity, before transitioning to the computed opacity."),
-    '#min' => 0,
-    '#max' => 1,
-    '#step' => 0.01,
-  );
-  $options['scale'] = array(
-    '#type' => 'number',
-    '#title' => t('Scale'),
-    '#description' => t("Starting scale value; will transition from this value to 1."),
-    '#min' => 0.01,
-    '#max' => 99.99,
-    '#step' => 0.01,
-  );
-  $options['easing'] = array(
-    '#type' => 'select',
-    '#title' => t('Easing effect'),
-    '#options' => array(
-      'ease' => t('Ease'),
-      'ease-in' => t('Ease In'),
-      'ease-out' => t('Ease Out'),
-      'ease-in-out' => t('Ease In Out'),
-    ),
-  );
-  $options['mobile'] = array(
-    '#type' => 'select',
-    '#title' => t('Mobile'),
-    '#description' => t("Control reveal animations on mobile."),
-    '#options' => array(
-      'false' => t('False'),
-      'true' => t('True'),
-    ),
-  );
-  $options['reset'] = array(
-    '#type' => 'select',
-    '#title' => t('Reset effect'),
-    '#description' => t("Replay reveal animations every time elements enter the viewport."),
-    '#options' => array(
-      'false' => t('False'),
-      'true' => t('True'),
-    ),
-  );
-  $options['useDelay'] = array(
-    '#type' => 'select',
-    '#title' => t('Use delay'),
-    '#options' => array(
-      'always' => t('Always - delay all reveal animations'),
-      'once' => t('Once - delay only the first time reveals occur'),
-      'onload' => t('Onload - delay only for animations triggered by first load'),
-    ),
-  );
-  $options['viewFactor'] = array(
-    '#type' => 'number',
-    '#title' => t('Viewport'),
-    '#description' => t("When should an element be considered in the viewport? A value of 0.20 for example means 20% of an element must be visible for its reveal to occur."),
-    '#min' => 0,
-    '#max' => 1,
-    '#step' => 0.01,
+  $options['speed'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Speed'),
+    '#description' => t("Parallax effect speed. Provide numbers from -1.0 to 2.0."),
+    '#default_value' => '0.5',
   );
 
   foreach ($options as $key => $value) {
