@@ -1,10 +1,7 @@
 Jarallax - Just Another Parallax
 =============
 
-A simple way to create and maintain how elements fade in, triggered when they
-enter the viewport. This module bundles and uses the
-[ScrollReveal](https://github.com/jlmakes/scrollreveal) plugin from
-[Julian Lloyd](https://github.com/jlmakes).
+Smooth parallax scrolling effect for background images.
 
 Installation
 ------------
@@ -13,31 +10,41 @@ Installation
   https://backdropcms.org/guide/modules.
 
 - Visit the configuration page under Administration > Configuration > User
-  Interface > Scroll Reveal (admin/config/user-interface/scrollreveal).
+  Interface > Jarallax (**admin/config/user-interface/jarallax**).
 
-- Adjust the default settings and add the elements that you wish to reveal as
-  the page scrolls. The parameters follow the [README instructions](https://github.com/backdrop-contrib/scrollreveal/blob/1.x-2.x/library/README.md#22-the-starting-defaults)
-  provided in the Scroll Reveal library.
+- Adjust the default settings and add the elements that you wish to add the
+  parallax effect to. The parameters follow the [options](https://github.com/nk-o/jarallax#options)
+  provided in the Jarallax library.
+  
+Roadmap
+------
+Long term vision includes:
+
+ - Implementing more of the basic options into the admin UI.
+ - Implementing Jarallax element and Youtube/Vimeo background video options.
+ - Adding a modified hero block that lets you add image, text, etc. and 
+   configure the parallax effect all in one place.
+
+Wiki
+------
+
+Please add and review usage guidelines in the [Wiki](https://github.com/backdrop-contrib/jarallax/wiki).
 
 Issues
 ------
 
-Bugs and Feature requests should be reported in the Issue Queue:
-https://github.com/backdrop-contrib/scrollreveal/issues.
+Bugs and Feature requests should be reported in the [Issue Queue](https://github.com/backdrop-contrib/jarallax/issues).
 
 Current Maintainers
 -------------------
 
-- Peter Anderson (https://github.com/bwpanda).
-- Laryn Kragt Bakker (https://github.com/laryn) - [CEDC.org](https://cedc.org).
+- [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
 
 Credits
 -------
 
-- ScrollReveal comes from the ![heart](http://i.imgur.com/oXJmdtz.gif) of
-  [@jlmakes](https://twitter.com/jlmakes).
-- Ported to Backdrop CMS by Biolithic (https://github.com/biolithic).
-- Maintainer for the Drupal module: Hatuhay (https://www.drupal.org/u/hatuhay).
+- Created for Backdrop CMS by [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
+- Early work based on the structure of the [Scroll Reveal](https://github.com/backdrop-contrib/scrollreveal) module.
 
 License
 -------
@@ -45,5 +52,5 @@ License
 This project is GPL v2 software. See the LICENSE.txt file in this directory for
 complete text.
 
-The ScrollReveal library itself has been released under the [MIT license](https://github.com/backdrop-contrib/scrollreveal/blob/1.x-2.x/library/LICENSE.md).
+The Jarallax library itself has been released under the MIT license.
 
