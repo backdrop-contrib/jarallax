@@ -1,7 +1,8 @@
 Jarallax - Just Another Parallax
 =============
 
-Smooth parallax scrolling effect for background images.
+Smooth parallax scrolling effect for background images using the [Jarallax](https://github.com/nk-o/jarallax)
+plugin from nk-o.
 
 Installation
 ------------
@@ -44,7 +45,8 @@ Credits
 -------
 
 - Created for Backdrop CMS by [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
-- Early work based on the structure of the [Scroll Reveal](https://github.com/backdrop-contrib/scrollreveal) module.
+- Early work on this module was based on the structure of the [Scroll Reveal](https://github.com/backdrop-contrib/scrollreveal) module.
+- The Jarallax plugin is by [nk-o](https://github.com/nk-o).
 
 License
 -------
@@ -52,5 +54,5 @@ License
 This project is GPL v2 software. See the LICENSE.txt file in this directory for
 complete text.
 
-The Jarallax library itself has been released under the MIT license.
+The Jarallax plugin itself has been released under the MIT license.
 
